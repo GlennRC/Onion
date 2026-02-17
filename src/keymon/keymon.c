@@ -396,6 +396,9 @@ void suspend_exec(int timeout)
             if ((ev.type != EV_KEY) || (ev.value > REPEAT))
                 continue;
             if (ev.code == HW_BTN_POWER) {
+                // Ignore power button while lid is closed on Flip
+                if (DEVICE_ID == MIYOO285 && read_lid_state() == 0)
+                    continue;
                 if (ev.value == RELEASED)
                     break;
                 else if (ev.value == PRESSED)
@@ -720,6 +723,9 @@ int main(void)
 
             switch (ev.code) {
             case HW_BTN_POWER:
+                // Ignore power button while lid is closed on Flip
+                if (DEVICE_ID == MIYOO285 && current_lid_state == 0)
+                    break;
                 if (val == PRESSED)
                     power_pressed = true;
                 if (!comboKey_menu && val == REPEAT) {
