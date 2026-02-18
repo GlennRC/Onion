@@ -1,0 +1,6 @@
+{
+	"label": "Git Sync Saves",
+	"icon": "../../Icons/Default/app/terminal.png",
+	"launch": "launch.sh",
+	"description": "Auto-sync saves to a git repo on game exit"
+}

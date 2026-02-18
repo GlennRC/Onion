@@ -589,6 +589,10 @@ launch_game_postprocess() {
             done
         fi
 
+        # Git sync saves (commit + push in background)
+        romname=$(basename "$rompath" | sed 's/\.[^.]*$//')
+        $sysdir/script/git_sync_saves.sh "$romname" &
+
         set_prev_state "game"
         check_off_order "End_Save"
     else
