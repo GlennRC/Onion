@@ -12,7 +12,7 @@ ssh_key="$config_dir/.gitsync_ssh_key"
 log_file=/tmp/git_sync.log
 
 export HOME=/mnt/SDCARD
-export GIT_SSH_COMMAND="ssh -i $ssh_key -o StrictHostKeyChecking=no"
+export GIT_SSH_COMMAND="$sysdir/bin/ssh -i $ssh_key"
 
 # Check git binary exists
 if [ ! -x "$git_bin" ]; then

@@ -22,7 +22,7 @@ log_file=/tmp/git_sync.log
 [ -d "$savesdir/.git" ] || exit 0
 
 export HOME=/mnt/SDCARD
-export GIT_SSH_COMMAND="ssh -i $ssh_key -o StrictHostKeyChecking=no"
+export GIT_SSH_COMMAND="$sysdir/bin/ssh -i $ssh_key"
 
 rom_name="${1:-unknown}"
 timestamp=$(date '+%Y-%m-%d %H:%M:%S')
