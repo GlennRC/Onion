@@ -1,0 +1,20 @@
+#!/bin/sh
+# SSH wrapper: translates OpenSSH-style args to dropbear dbclient
+# Used by GIT_SSH_COMMAND for git push/pull over SSH
+
+sysdir=/mnt/SDCARD/.tmp_update
+dbclient="$sysdir/bin/dbclient"
+
+args=""
+identity=""
+while [ $# -gt 0 ]; do
+    case "$1" in
+        -i) identity="$2"; shift 2 ;;
+        -o) shift 2 ;;  # drop unsupported -o options
+        -p) args="$args -p $2"; shift 2 ;;
+        -*) shift ;;  # drop other unknown flags
+        *)  args="$args $1"; shift ;;
+    esac
+done
+
+exec "$dbclient" -y ${identity:+-i "$identity"} $args
