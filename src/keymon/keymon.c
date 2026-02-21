@@ -1082,6 +1082,9 @@ int main(void)
                 if (current_lid_state == 0) {
                     printf_debug("Lid closed detected, action: %d", settings.lid_close_action);
 
+                    // Sync saves on lid close (non-blocking)
+                    system("/mnt/SDCARD/.tmp_update/script/git_sync_saves.sh lid_close &");
+
                     switch (settings.lid_close_action) {
                     case 0: // Suspend
                         if (settings.disable_standby) {

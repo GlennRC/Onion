@@ -81,24 +81,11 @@ wifi_up() {
 }
 
 if wifi_up; then
-    if [ "$rom_name" = "shutdown" ]; then
-        # Synchronous push on shutdown (no background — must finish before poweroff)
-        "$git_bin" push -u origin "${branch:-main}" >> "$log_file" 2>&1
-        if [ $? -eq 0 ]; then
-            log "Push OK"
-        else
-            log "Push FAILED"
-        fi
+    "$git_bin" push -u origin "${branch:-main}" >> "$log_file" 2>&1
+    if [ $? -eq 0 ]; then
+        log "Push OK"
     else
-        (
-            "$git_bin" push -u origin "${branch:-main}" >> "$log_file" 2>&1
-            if [ $? -eq 0 ]; then
-                log "Push OK"
-            else
-                log "Push FAILED (will retry next game exit)"
-            fi
-        ) &
-        log "Push started (background)"
+        log "Push FAILED"
     fi
 else
     log "WiFi down, skipping push (will push next time)"
