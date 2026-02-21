@@ -36,7 +36,9 @@ log "=== git sync start: $rom_name ==="
 cd "$savesdir" || exit 1
 
 # Stage save files (.srm) and save states (.state*)
-"$git_bin" add saves/**/*.srm states/**/*.state states/**/*.state.* 2>> "$log_file"
+# Use find because /bin/sh does not support ** globs
+find saves -name '*.srm' -exec "$git_bin" add -f {} + 2>> "$log_file"
+find states \( -name '*.state' -o -name '*.state.*' \) -exec "$git_bin" add -f {} + 2>> "$log_file"
 
 # Check if there are changes to commit
 if "$git_bin" diff --cached --quiet 2>> "$log_file"; then
