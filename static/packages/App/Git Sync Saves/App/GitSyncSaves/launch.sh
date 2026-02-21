@@ -65,6 +65,13 @@ EOF
     if [ -n "$branch" ]; then
         "$git_bin" branch -M "$branch" >> "$log_file" 2>&1
     fi
+
+    # Pull existing saves from remote on fresh init
+    if [ -n "$remote_url" ]; then
+        "$git_bin" fetch origin "${branch:-main}" >> "$log_file" 2>&1
+        "$git_bin" reset --mixed "origin/${branch:-main}" >> "$log_file" 2>&1
+        "$git_bin" checkout -- . >> "$log_file" 2>&1
+    fi
 }
 
 save_config() {
