@@ -32,9 +32,11 @@ log() {
 }
 
 log "=== git sync start: $rom_name ==="
-log "git_bin=$git_bin exists=$([ -x "$git_bin" ] && echo yes || echo no)"
-log "savesdir=$savesdir gitdir=$([ -d "$savesdir/.git" ] && echo yes || echo no)"
-log "enable=$([ -f "$enable_flag" ] && echo yes || echo no)"
+
+# Sync clock via NTP if WiFi is up (device resets to 1970 on boot)
+if ifconfig wlan0 2>/dev/null | grep -q "inet addr"; then
+    $sysdir/bin/ntpdate -s pool.ntp.org 2>/dev/null
+fi
 
 cd "$savesdir" || { log "ERROR: cd to $savesdir failed"; exit 1; }
 
