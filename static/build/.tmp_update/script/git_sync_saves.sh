@@ -10,7 +10,7 @@ git_bin=$sysdir/bin/git
 enable_flag="$config_dir/.gitSyncEnabled"
 sync_config="$config_dir/.gitsync"
 ssh_key="$config_dir/.gitsync_ssh_key"
-log_file=/tmp/git_sync.log
+log_file=/mnt/SDCARD/Saves/git_sync.log
 
 # Exit early if sync not enabled
 [ -f "$enable_flag" ] || exit 0
@@ -32,11 +32,18 @@ log() {
 }
 
 log "=== git sync start: $rom_name ==="
+log "git_bin=$git_bin exists=$([ -x "$git_bin" ] && echo yes || echo no)"
+log "savesdir=$savesdir gitdir=$([ -d "$savesdir/.git" ] && echo yes || echo no)"
+log "enable=$([ -f "$enable_flag" ] && echo yes || echo no)"
 
-cd "$savesdir" || exit 1
+cd "$savesdir" || { log "ERROR: cd to $savesdir failed"; exit 1; }
 
 # Stage save files (.srm) and save states (.state*)
 # Use find because /bin/sh does not support ** globs
+save_count=$(find saves -name '*.srm' 2>/dev/null | wc -l)
+state_count=$(find states \( -name '*.state' -o -name '*.state.*' \) 2>/dev/null | wc -l)
+log "Found $save_count srm files, $state_count state files"
+
 find saves -name '*.srm' -exec "$git_bin" add -f {} + 2>> "$log_file"
 find states \( -name '*.state' -o -name '*.state.*' \) -exec "$git_bin" add -f {} + 2>> "$log_file"
 

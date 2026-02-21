@@ -34,6 +34,8 @@ init_repo() {
 
     if [ ! -d ".git" ]; then
         "$git_bin" init >> "$log_file" 2>&1
+        "$git_bin" config user.email "miyoo-flip@local" >> "$log_file" 2>&1
+        "$git_bin" config user.name "Miyoo Flip" >> "$log_file" 2>&1
         # Create .gitignore to only track saves and states
         cat > .gitignore << 'EOF'
 # Track only save files and save states
