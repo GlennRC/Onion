@@ -9,7 +9,7 @@
 #include "utils/file.h"
 #include "utils/json.h"
 
-#define MAX_BRIGHTNESS 10
+#define MAX_BRIGHTNESS 14
 #define MAIN_UI_SETTINGS "/mnt/SDCARD/system.json"
 #define CMD_TO_RUN_PATH "/mnt/SDCARD/.tmp_update/cmd_to_run.sh"
 #define RETROARCH_CONFIG "/mnt/SDCARD/RetroArch/.retroarch/retroarch.cfg"
@@ -121,7 +121,7 @@ static settings_s __default_settings = (settings_s){
     .blue_light_rgb = 8421504,
     .blue_light_time = "20:00",
     .blue_light_time_off = "08:00",
-    .pwmfrequency = 7,
+    .pwmfrequency = 31,
     .lid_close_action = 0,
     .mainui_button_x = "",
     .mainui_button_y = "",

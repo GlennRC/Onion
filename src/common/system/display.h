@@ -224,12 +224,28 @@ uint32_t display_getBrightnessRaw()
     return duty_cycle;
 }
 
-// Get display brightness from raw (0 - 10)
+// Brightness lookup table for PWM period=3200
+// 15 steps (0-14), raw values hand-picked for dim-end granularity
+// Steps 0-2: 1-unit increments (~10% relative change)
+// Steps 3-6: 2-5 unit increments (mid-dim)
+// Steps 7-14: increasing jumps (normal/bright)
+static const int BRIGHTNESS_TABLE[] = {8, 9, 10, 12, 14, 17, 22, 30, 42, 58, 80, 115, 168, 256, 400};
+#define BRIGHTNESS_TABLE_SIZE (sizeof(BRIGHTNESS_TABLE) / sizeof(BRIGHTNESS_TABLE[0]))
+
+// Get display brightness step from raw duty cycle
 int display_getBrightnessFromRaw()
 {
     int value_raw = display_getBrightnessRaw();
-    int value = round((log(value_raw / 3.0) / 0.350656));
-    return value;
+    int best = 0;
+    int best_diff = abs(value_raw - BRIGHTNESS_TABLE[0]);
+    for (int i = 1; i < (int)BRIGHTNESS_TABLE_SIZE; i++) {
+        int diff = abs(value_raw - BRIGHTNESS_TABLE[i]);
+        if (diff < best_diff) {
+            best_diff = diff;
+            best = i;
+        }
+    }
+    return best;
 }
 //
 //    Set Brightness (Raw)
@@ -241,14 +257,12 @@ void display_setBrightnessRaw(uint32_t value)
     printf_debug("Raw brightness: %d\n", value);
 }
 
-// Set display brightness (0 - 10)
+// Set display brightness (0 - 14)
 void display_setBrightness(uint32_t value)
 {
-    // Linear curve
-    // int value_raw = (value == 0) ? 3 : (value * 10);
-
-    // Exponential curve
-    int value_raw = round(3.0 * exp(0.350656 * value));
+    if (value >= BRIGHTNESS_TABLE_SIZE)
+        value = BRIGHTNESS_TABLE_SIZE - 1;
+    int value_raw = BRIGHTNESS_TABLE[value];
 
     display_setBrightnessRaw(value_raw);
 }

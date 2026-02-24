@@ -162,7 +162,7 @@ void handleUpdateKeystateMain(AppState *state)
 
     if (_gs_keystate.keystate[SW_BTN_UP] >= PRESSED) {
         // Change brightness
-        if (settings.brightness < 10) {
+        if (settings.brightness < MAX_BRIGHTNESS) {
             settings_setBrightness(settings.brightness + 1, true, true);
         }
         state->brightness_changed = true;

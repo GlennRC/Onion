@@ -13,6 +13,7 @@
 #endif
 
 #include "system/lang.h"
+#include "system/settings.h"
 #include "utils/flags.h"
 #include "utils/log.h"
 #include "utils/surfaceSetAlpha.h"
@@ -382,7 +383,11 @@ SDL_Surface *resource_getPopMenuBg(int size)
 
 SDL_Surface *resource_getBrightness(int brightness)
 {
-    switch (brightness) {
+    // Scale 0-MAX_BRIGHTNESS step to 0-10 icon index (only 11 icon assets)
+    int icon = brightness * 10 / MAX_BRIGHTNESS;
+    if (icon > 10)
+        icon = 10;
+    switch (icon) {
     case 0:
         return resource_getSurface(BRIGHTNESS_0);
     case 1:

@@ -813,7 +813,7 @@ init_system() {
         # 0 - 9 = 100 - 1000 Hz
         frequency=$((($(cat "$pwmfile") + 1) * 100))
     else
-        frequency=800
+        frequency=3200
     fi
     echo $frequency > /sys/class/pwm/pwmchip0/pwm0/period
     echo $brightness_raw > /sys/class/pwm/pwmchip0/pwm0/duty_cycle

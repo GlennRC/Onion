@@ -11,6 +11,7 @@
 
 #include "./clock.h"
 #include "./display.h"
+#include "./settings.h"
 
 #define CHR_WIDTH (3 * 4 + 4)
 #define CHR_HEIGHT (5 * 4)
@@ -376,7 +377,7 @@ void osd_showVolumeBar(int volume, bool mute)
 
 void osd_showBrightnessBar(int brightness)
 {
-    osd_showBar(brightness, 10, OSD_BRIGHTNESS_COLOR);
+    osd_showBar(brightness, MAX_BRIGHTNESS, OSD_BRIGHTNESS_COLOR);
 }
 
 #endif // SYSTEM_OSD_H__
