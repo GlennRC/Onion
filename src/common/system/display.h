@@ -229,7 +229,7 @@ uint32_t display_getBrightnessRaw()
 // Steps 0-2: 1-unit increments (~10% relative change)
 // Steps 3-6: 2-5 unit increments (mid-dim)
 // Steps 7-14: increasing jumps (normal/bright)
-static const int BRIGHTNESS_TABLE[] = {8, 9, 10, 12, 14, 17, 22, 30, 42, 58, 80, 115, 168, 256, 400};
+static const int BRIGHTNESS_TABLE[] = {5, 6, 7, 9, 11, 14, 19, 28, 42, 58, 80, 115, 168, 256, 400};
 #define BRIGHTNESS_TABLE_SIZE (sizeof(BRIGHTNESS_TABLE) / sizeof(BRIGHTNESS_TABLE[0]))
 
 // Get display brightness step from raw duty cycle
