@@ -226,10 +226,10 @@ uint32_t display_getBrightnessRaw()
 
 // Brightness lookup table for PWM period=3200
 // 15 steps (0-14), raw values hand-picked for dim-end granularity
-// Steps 0-2: 1-unit increments (~10% relative change)
-// Steps 3-6: 2-5 unit increments (mid-dim)
-// Steps 7-14: increasing jumps (normal/bright)
-static const int BRIGHTNESS_TABLE[] = {5, 6, 7, 9, 11, 14, 19, 28, 42, 58, 80, 115, 168, 256, 400};
+// Steps 0-2: ultra-dim (1-unit increments for dark room use)
+// Steps 3-5: mid-dim transition
+// Steps 6-14: increasing jumps (normal/bright)
+static const int BRIGHTNESS_TABLE[] = {1, 2, 3, 5, 8, 14, 19, 28, 42, 58, 80, 115, 168, 256, 400};
 #define BRIGHTNESS_TABLE_SIZE (sizeof(BRIGHTNESS_TABLE) / sizeof(BRIGHTNESS_TABLE[0]))
 
 // Get display brightness step from raw duty cycle
