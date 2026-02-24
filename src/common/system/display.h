@@ -224,13 +224,10 @@ uint32_t display_getBrightnessRaw()
     return duty_cycle;
 }
 
-// Brightness lookup table for PWM period=3200 (INVERTED polarity)
-// Hardware: higher duty_cycle = dimmer, lower duty_cycle = brighter
-// 15 steps (0=dimmest, 14=brightest), raw = 3200 - effective_brightness
-// Steps 0-2: ultra-dim (1-unit effective increments for dark room use)
-// Steps 3-5: mid-dim transition
-// Steps 6-14: increasing jumps toward full brightness
-static const int BRIGHTNESS_TABLE[] = {3199, 3198, 3197, 3195, 3192, 3186, 3181, 3172, 3158, 3142, 3120, 3085, 3032, 2944, 2800};
+// Brightness lookup table for PWM period=3200
+// 15 steps (0-14), higher raw = brighter
+// Device-verified: each step produces a noticeable brightness change
+static const int BRIGHTNESS_TABLE[] = {5, 6, 7, 9, 11, 14, 19, 28, 42, 58, 80, 115, 168, 256, 400};
 #define BRIGHTNESS_TABLE_SIZE (sizeof(BRIGHTNESS_TABLE) / sizeof(BRIGHTNESS_TABLE[0]))
 
 // Get display brightness step from raw duty cycle
